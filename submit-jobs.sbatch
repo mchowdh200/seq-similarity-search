@@ -16,6 +16,7 @@
 snakemake -s generate-index.smk \
           --use-conda --conda-frontend mamba \
           --cluster-config conf/cluster_config.yaml \
+          --latency-wait \
           --cluster "sbatch -J {cluster.job-name} \\
                             -t {cluster.time} \\
                             -N {cluster.nodes} \\
