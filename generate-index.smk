@@ -1,6 +1,6 @@
 import os
 from types import SimpleNamespace
-configfile: 'config/generate-index.yaml'
+configfile: 'conf/generate-index.yaml'
 config = SimpleNamespace(**config)
 
 
