@@ -5,8 +5,9 @@ config = SimpleNamespace(**config)
 
 
 rule All:
-    index = f'{config.outdir}/{config.index_name}',
-    id_map =  f'{config.outdir}/{config.index_name}.id_map.gz'
+    input:
+        index = f'{config.outdir}/{config.index_name}',
+        id_map =  f'{config.outdir}/{config.index_name}.id_map.gz'
 
 rule CompileAsMac:
     output:
