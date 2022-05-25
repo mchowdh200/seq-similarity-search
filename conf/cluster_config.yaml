@@ -1,0 +1,15 @@
+__default__:
+  job-name: "{rule}"
+  partition: short
+  time: 60 # minutes
+  nodes: 1
+  ntasks: 4
+  mem: 32gb
+  output: "log/{rule}-%j.out"
+  error: "log/{rule}-%j.err"
+
+CreateIndex:
+  partition: long
+  time: 2880 # 48hr probably overkill
+  ntasks: 64
+  mem: 128gb # probably overkill
