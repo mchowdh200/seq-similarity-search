@@ -36,7 +36,7 @@ rule CreateIndex:
         gzipped = '--gzipped' if config.gzipped else ''
     shell:
         f"""
-        scripts/create_index.py \\
+        python scripts/create_index.py \\
         --model-weights AsMac/model/final.pt \\
         --output {{output.index}} \\
         --format {config.seq_filetype} \\
