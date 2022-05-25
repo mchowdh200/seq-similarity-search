@@ -1,7 +1,7 @@
 seq_filetype: 'fastq' # fasta or fastq
 gzipped: true
-outdir: # abs path to output directory
-index_name: # eg: could use an sra acsession code
+outdir: '/scratch/Shares/layer/projects/asmac-test'
+index_name: 'BetaCoV_bat_Yunnan_RmYN02.index'
 seqs:
   - '/scratch/Shares/layer/projects/asmac-test/SRR12432009/BetaCoV_bat_Yunnan_RmYN02_2019_2.fq.gz.1'
   - '/scratch/Shares/layer/projects/asmac-test/SRR12432009/BetaCoV_bat_Yunnan_RmYN02_2019_1.fq.gz.1'
