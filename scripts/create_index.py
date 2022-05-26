@@ -1,9 +1,8 @@
 import argparse
 import gzip
-from collections import defaultdict
 
-from ..AsMac.AsMac_model import AsMac
-from ..AsMac.AsMac_utility import one_hot, SeqIteratorDataset
+from AsMac_model import AsMac
+from AsMac_utility import one_hot, SeqIteratorDataset
 
 import faiss
 import torch

@@ -9,15 +9,12 @@ rule All:
         index = f'{config.outdir}/{config.index_name}',
         id_map =  f'{config.outdir}/{config.index_name}.id_map.gz'
 
-rule CompileAsMac:
+rule GetModelWeights:
     output:
-        'AsMac/_softnw.cpython-38-x86_64-linux-gnu.so'
-    conda:
-        'envs/asmac.yaml'
+        'data/final.pt'
     shell:
         """
-        cd AsMac
-        python setup_softnw.py build_ext --inplace
+        wget -O {output} https://github.com/mchowdh200/AsMac/blob/0daab7ee85d919c2fe1583c16ca824512cb220e9/model/final.pt
         """
 
 rule IndexFastqs:
@@ -25,7 +22,7 @@ rule IndexFastqs:
 
 rule CreateIndex:
     input:
-        asmac_compiled = rules.CompileAsMac.output,
+        asmac_weights = rules.GetModelWeights.output,
         seqs = config.seqs, # list of files
     output:
         index = f'{config.outdir}/{config.index_name}',
@@ -37,7 +34,7 @@ rule CreateIndex:
     shell:
         f"""
         python scripts/create_index.py \\
-        --model-weights AsMac/model/final.pt \\
+        --model-weights {{input.asmac_weights}} \\
         --output {{output.index}} \\
         --format {config.seq_filetype} \\
         {{params.gzipped}} \\
