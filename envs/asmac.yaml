@@ -10,6 +10,7 @@ dependencies:
   - cpuonly
   - numpy
   - biopython
+  - bwa
   - pip
   - pip:
       - -e git+https://github.com/mchowdh200/AsMac.git#egg=AsMac

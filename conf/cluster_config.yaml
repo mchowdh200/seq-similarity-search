@@ -10,6 +10,12 @@ __default__:
 
 CreateIndex:
   partition: long
-  time: 2880 # 48hr probably overkill
+  time: 2880 # 48hr probably overkill (nope...)
   ntasks: 64
-  mem: 128gb # probably overkill
+  mem: 128gb # probably overkill (nope...)
+
+Bwapairedsample:
+  partition: short
+  time: 1439 # almost 24hrs
+  mem: 64gb
+  ntasks: 64
