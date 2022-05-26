@@ -14,7 +14,7 @@ rule GetModelWeights:
         'data/final.pt'
     shell:
         """
-        wget -O {output} https://github.com/mchowdh200/AsMac/blob/0daab7ee85d919c2fe1583c16ca824512cb220e9/model/final.pt
+        wget -O {output} https://github.com/mchowdh200/AsMac/blob/main/model/final.pt?raw=true
         """
 
 rule IndexFastqs:
@@ -33,6 +33,7 @@ rule CreateIndex:
         gzipped = '--gzipped' if config.gzipped else ''
     shell:
         f"""
+        mkdir -p log
         python scripts/create_index.py \\
         --model-weights {{input.asmac_weights}} \\
         --output {{output.index}} \\
