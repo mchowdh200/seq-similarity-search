@@ -32,7 +32,7 @@ alphabet_size = 4 # the model was trained with ATCG only
 embed_dim = 300 # number of kernel sequences
 kernel_size = 20 # kernel length
 net = AsMac(alphabet_size, embed_dim, kernel_size)
-net_state_dict = torch.load(args.model_weights)
+net_state_dict = torch.load(args.weights)
 net.load_state_dict(net_state_dict)
 
 ## get embeddings, add to faiss index
