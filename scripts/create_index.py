@@ -56,5 +56,4 @@ with torch.no_grad(), gzip.open(f'{args.output}.id_map.gz', 'wt') as id_map:
                         .detach().numpy().astype(np.float32)
         index.add(embeddings) 
         id_map.write(f'{records["index"]}\t{records["file"]}\t{records["id"]}\n')
-        print(f'{records["index"]}\t{records["file"]}\t{records["id"]}\n')
 faiss.write_index(index, args.output)
