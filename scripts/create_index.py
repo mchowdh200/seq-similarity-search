@@ -28,20 +28,27 @@ args = parser.parse_args()
 
 ## load pretrained model
 # ==============================================================================
+print('loading model weights...', end='')
 alphabet_size = 4 # the model was trained with ATCG only
 embed_dim = 300 # number of kernel sequences
 kernel_size = 20 # kernel length
 net = AsMac(alphabet_size, embed_dim, kernel_size)
 net_state_dict = torch.load(args.weights)
 net.load_state_dict(net_state_dict)
+print('done.')
 
 ## get embeddings, add to faiss index
 # ==============================================================================
+print('creating iterator dataset...', end='')
 dataset = SeqIteratorDataset(paths=args.seqs, format=args.format,
                              gzipped=args.gzipped)
+print('done.')
+
 dataloader = DataLoader(dataset=dataset, batch_size=args.batch_size)
 index = faiss.IndexFlatL2(embed_dim)
 with torch.no_grad(), gzip.open(f'{args.output}.id_map.gz', 'wt') as id_map:
+
+    print('creating faiss index...', end='')
     for records in dataloader:
         # add the embeddings (rows) to the index
         seq_oh = one_hot(records['seq'])
