@@ -25,4 +25,4 @@ snakemake -s generate-index.smk \
                             --mem={cluster.mem} \\
                             --output {cluster.output} \\
                             --error {cluster.error}" \
-          --jobs 4 --cores 4
+          --jobs 4 --cores 64
