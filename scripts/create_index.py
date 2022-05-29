@@ -1,6 +1,7 @@
 from multiprocessing import Pool
 import argparse
 import gzip
+from pprint import pprint
 
 from AsMac_model import AsMac
 from AsMac_utility import (load_pretrained, SeqIteratorDataset,
@@ -47,6 +48,8 @@ with gzip.open(f'{args.output}.id_map.gz', 'wt') as id_map:
     for batch in dataloader:
         # add the embeddings (rows) to the index
         embeddings = p.map(model.test_embed, [b['seq'] for b in batch])
+        pprint(embeddings)
+        
         for s in formatBatchMetadata(batch):
             id_map.write(s)
             id_map.write('\n')
