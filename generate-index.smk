@@ -3,7 +3,7 @@ import yaml
 from types import SimpleNamespace
 configfile: 'conf/generate-index.yaml'
 config = SimpleNamespace(**config)
-cluster_config = SimpleNamespace(**yaml.load(open('conf/cluster_config.yaml')))
+cluster_config = SimpleNamespace(**yaml.load(open('conf/cluster_config.yaml'), Loader=yaml.FullLoader()))
 
 rule All:
     input:
