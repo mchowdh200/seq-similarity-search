@@ -38,8 +38,7 @@ model = load_pretrained(args.weights)
 dataset = SeqIteratorDataset(paths=args.seqs, format=args.format,
                              gzipped=args.gzipped, alphabet='ATCG')
 
-dataloader = makeDataLoader(dataset, batch_size=args.batch_size,
-                            num_workers=args.processes)
+dataloader = makeDataLoader(dataset, batch_size=args.batch_size)
 index = faiss.IndexFlatL2(embed_dim)
 p = Pool(args.processes)
 with gzip.open(f'{args.output}.id_map.gz', 'wt') as id_map:

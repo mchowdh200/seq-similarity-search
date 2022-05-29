@@ -51,5 +51,6 @@ rule CreateIndex:
         --format {config.seq_filetype} \\
         {{params.gzipped}} \\
         --batch-size 64 \\
+        --num-processes \\ {{threads}}
         --seqs {{input.seqs}}
         """
