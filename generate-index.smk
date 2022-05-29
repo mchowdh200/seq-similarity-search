@@ -3,7 +3,7 @@ import yaml
 from types import SimpleNamespace
 configfile: 'conf/generate-index.yaml'
 config = SimpleNamespace(**config)
-cluster_config = SimpleNamespace(**yaml.load(open('conf/cluster_config.yaml'), Loader=yaml.FullLoader))
+# cluster_config = yaml.load(open('conf/cluster_config.yaml'), Loader=yaml.FullLoader)
 
 rule All:
     input:
@@ -41,7 +41,7 @@ rule CreateIndex:
     params:
         gzipped = '--gzipped' if config.gzipped else ''
     threads:
-        cluster_config.CreateIndex['ntasks']
+        cluster_config['CreateIndex']['ntasks']
     shell:
         f"""
         mkdir -p log
