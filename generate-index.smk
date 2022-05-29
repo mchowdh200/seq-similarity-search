@@ -7,8 +7,8 @@ cluster_config = SimpleNamespace(**yaml.load(open('conf/cluster_config.yaml'), L
 
 rule All:
     input:
-        # index = f'{config.outdir}/{config.index_name}',
-        # id_map =  f'{config.outdir}/{config.index_name}.id_map.gz'
+        index = f'{config.outdir}/{config.index_name}',
+        id_map =  f'{config.outdir}/{config.index_name}.id_map.gz'
 
 rule GetModelWeights:
     output:
