@@ -1,3 +1,4 @@
+from functools import partial
 from multiprocessing import Pool
 import argparse
 import gzip
@@ -36,18 +37,16 @@ model = load_pretrained(args.weights)
 ## TODO change iterator to be case insensitive
 dataset = SeqIteratorDataset(paths=args.seqs, format=args.format,
                              gzipped=args.gzipped, alphabet='ATCG')
-print('done.')
 
 dataloader = makeDataLoader(dataset, batch_size=args.batch_size,
                             num_workers=args.processes)
 index = faiss.IndexFlatL2(embed_dim)
 p = Pool(args.processes)
 with gzip.open(f'{args.output}.id_map.gz', 'wt') as id_map:
-
-    print('creating faiss index...', end='')
     for batch in dataloader:
         # add the embeddings (rows) to the index
-        embeddings = p.map(model.test_embed, [b['seq'] for b in batch])
+        embeddings = p.map(partial(model.test_embed, asnumpy=True),
+                           [b['seq'] for b in batch])
         
         for s in formatBatchMetadata(batch):
             id_map.write(s)
