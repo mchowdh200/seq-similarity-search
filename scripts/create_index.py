@@ -50,5 +50,5 @@ with gzip.open(f'{args.output}.id_map.gz', 'wt') as id_map:
         for s in formatBatchMetadata(batch):
             id_map.write(s)
             id_map.write('\n')
-        index.add(embeddings) 
+        index.add(np.array(embeddings))
 faiss.write_index(index, args.output)
