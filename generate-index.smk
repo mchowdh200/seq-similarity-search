@@ -41,7 +41,7 @@ rule CreateIndex:
     params:
         gzipped = '--gzipped' if config.gzipped else ''
     threads:
-        cluster_config['CreateIndex']['ntasks']
+        workflow.cores
     shell:
         f"""
         mkdir -p log
