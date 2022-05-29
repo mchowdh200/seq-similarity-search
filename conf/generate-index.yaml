@@ -7,7 +7,7 @@ index_name: 'BetaCoV_bat_Yunnan_RmYN02.index'
 paired_seq:
   - left: '/scratch/Shares/layer/projects/asmac-test/SRR12432009/BetaCoV_bat_Yunnan_RmYN02_2019_2.fq.gz.1'
   - right: '/scratch/Shares/layer/projects/asmac-test/SRR12432009/BetaCoV_bat_Yunnan_RmYN02_2019_1.fq.gz.1'
-non_paired_seqs:
+seqs:
   - '/scratch/Shares/layer/projects/asmac-test/SRR12432009/BetaCoV_bat_Yunnan_RmYN02_2019_2.fq.gz.1'
   - '/scratch/Shares/layer/projects/asmac-test/SRR12432009/BetaCoV_bat_Yunnan_RmYN02_2019_1.fq.gz.1'
   - '/scratch/Shares/layer/projects/asmac-test/SRR12464727/BetaCoV_bat_Yunnan_RmYN02_2019_1.fq.1'

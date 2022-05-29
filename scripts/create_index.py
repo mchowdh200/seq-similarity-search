@@ -1,12 +1,13 @@
+from multiprocessing import Pool
 import argparse
 import gzip
 
 from AsMac_model import AsMac
-from AsMac_utility import one_hot, SeqIteratorDataset
+from AsMac_utility import (load_pretrained, SeqIteratorDataset,
+                           makeDataLoader, formatBatchMetadata)
 
 import faiss
 import torch
-from torch.utils.data import DataLoader
 import numpy as np
 
 ## Get args
@@ -22,38 +23,32 @@ parser.add_argument('--gzipped', action='store_true', default=False,
                     dest='gzipped', help='Is the file gzipped?')
 parser.add_argument('--batch-size', type=int, default=64, dest='batch_size',
                     help='batch size for model to operate on.')
+parser.add_argument('--num-processes', type=int, default=64, dest='processes',
+                    help='number of processes to use.')
 parser.add_argument('--seqs', type=str, required=True, nargs='+', dest='seqs',
                     help='list of seq file paths.')
 args = parser.parse_args()
 
-## load pretrained model
-# ==============================================================================
-print('loading model weights...', end='')
-alphabet_size = 4 # the model was trained with ATCG only
-embed_dim = 300 # number of kernel sequences
-kernel_size = 20 # kernel length
-net = AsMac(alphabet_size, embed_dim, kernel_size)
-net_state_dict = torch.load(args.weights)
-net.load_state_dict(net_state_dict)
-print('done.')
 
-## get embeddings, add to faiss index
-# ==============================================================================
-print('creating iterator dataset...', end='')
+embed_dim = 300
+model = load_pretrained(args.weights)
+## TODO change iterator to be case insensitive
 dataset = SeqIteratorDataset(paths=args.seqs, format=args.format,
-                             gzipped=args.gzipped)
+                             gzipped=args.gzipped, alphabet='ATCG')
 print('done.')
 
-dataloader = DataLoader(dataset=dataset, batch_size=args.batch_size)
+dataloader = makeDataLoader(dataset, batch_size=args.batch_size,
+                            num_workers=args.processes)
 index = faiss.IndexFlatL2(embed_dim)
-with torch.no_grad(), gzip.open(f'{args.output}.id_map.gz', 'wt') as id_map:
+p = Pool(args.processes)
+with gzip.open(f'{args.output}.id_map.gz', 'wt') as id_map:
 
     print('creating faiss index...', end='')
-    for records in dataloader:
+    for batch in dataloader:
         # add the embeddings (rows) to the index
-        seq_oh = one_hot(records['seq'])
-        embeddings = net.get_embeddings(seq_oh) \
-                        .detach().numpy().astype(np.float32)
+        embeddings = p.map(model.test_embed, [b['seq'] for b in batch])
+        for s in formatBatchMetadata(batch):
+            id_map.write(s)
+            id_map.write('\n')
         index.add(embeddings) 
-        id_map.write(f'{records["index"]}\t{records["file"]}\t{records["id"]}\n')
 faiss.write_index(index, args.output)

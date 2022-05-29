@@ -12,7 +12,7 @@ CreateIndex:
   partition: long
   time: 2880 # 48hr probably overkill (nope...)
   ntasks: 64
-  mem: 128gb # probably overkill (nope...)
+  mem: 256gb # probably overkill (nope...)
 
 Bwapairedsample:
   partition: short
