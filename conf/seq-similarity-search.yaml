@@ -1,6 +1,7 @@
 seq_filetype: 'fastq' # fasta or fastq
 gzipped: true
 outdir: '/scratch/Shares/layer/projects/asmac-test'
+fastadir: '/scratch/Shares/layer/projects/asmac-test/viruses'
 index_name: 'BetaCoV_bat_Yunnan_RmYN02.index'
 
 # I'm just gonna separate the seqs by paired and not paired end reads
@@ -10,4 +11,4 @@ paired_seq:
 seqs:
   - '/scratch/Shares/layer/projects/asmac-test/SRR12432009/BetaCoV_bat_Yunnan_RmYN02_2019_2.fq.gz.1'
   - '/scratch/Shares/layer/projects/asmac-test/SRR12432009/BetaCoV_bat_Yunnan_RmYN02_2019_1.fq.gz.1'
-  - '/scratch/Shares/layer/projects/asmac-test/SRR12464727/BetaCoV_bat_Yunnan_RmYN02_2019_1.fq.1'
+  # - '/scratch/Shares/layer/projects/asmac-test/SRR12464727/BetaCoV_bat_Yunnan_RmYN02_2019_1.fq.1'
