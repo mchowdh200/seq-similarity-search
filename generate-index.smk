@@ -1,7 +1,7 @@
 import os
 import yaml
 from types import SimpleNamespace
-configfile: 'conf/generate-index.yaml'
+configfile: 'conf/seq-similarity-search.yaml'
 config = SimpleNamespace(**config)
 # cluster_config = yaml.load(open('conf/cluster_config.yaml'), Loader=yaml.FullLoader)
 

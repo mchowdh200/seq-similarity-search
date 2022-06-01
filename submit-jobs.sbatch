@@ -9,7 +9,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=4
 #SBATCH --mem=1gb
-#SBATCH --time=48:00:00 # Time limit hrs:min:sec
+#SBATCH --time=168:00:00 # Time limit hrs:min:sec
 #SBATCH --output=/Users/much8161/Repositories/seq-similarity-search/log/snakemake-asmac-test.out
 #SBATCH --error=/Users/much8161/Repositories/seq-similarity-search/log/snakemake-asmac-test.err
 # =============================================================================
