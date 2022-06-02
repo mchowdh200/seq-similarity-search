@@ -18,6 +18,7 @@ idmap = f'{index}.idmap.gz' # may not need at this time
 rule All:
     expand(f'{config.outdir}/virus_beds/{{sample}}.bed', sample=samples)
 
+
 rule GetModelWeights:
     output:
         'data/final.pt'
@@ -28,8 +29,8 @@ rule GetModelWeights:
 
 rule MakeFastaWindows:
     """
-    take a fasta, and create a bed file with format
-    contig_name  start  end  sequence
+    Take a fasta, and create a tab sep file with format
+    start  end  sequence.
     """
     input:
         f'{config.fastadir}/{{virus}}.fasta'
@@ -38,5 +39,4 @@ rule MakeFastaWindows:
     conda:
         'envs/asmac.yaml'
     shell:
-        'python scripts/make_fasta_windows.py {input} {output}'
-    
+        'python scripts/make_fasta_windows.py --fasta {input} --window 150 --step 50 > {output}'
