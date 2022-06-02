@@ -16,7 +16,8 @@ idmap = f'{index}.idmap.gz' # may not need at this time
 
 
 rule All:
-    expand(f'{config.outdir}/virus_beds/{{sample}}.bed', sample=samples)
+    input:
+        expand(f'{config.outdir}/virus_beds/{{sample}}.bed', sample=samples)
 
 
 rule GetModelWeights:
