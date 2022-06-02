@@ -5,7 +5,7 @@ configfile: 'conf/seq-similarity-search.yaml'
 config = SimpleNamespace(**config)
 
 samples = [(lambda x: os.path.splitext(os.path.basename(x))[0])(g)
-           for g in glob(config.fastadir)] 
+           for g in glob(f'{config.fastadir}/*.fasta')] 
 index = f'{config.outdir}/{config.index_name}'
 idmap = f'{index}.idmap.gz' # may not need at this time
 
