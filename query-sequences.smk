@@ -34,9 +34,9 @@ rule MakeFastaWindows:
     start  end  sequence.
     """
     input:
-        f'{config.fastadir}/{{virus}}.fasta'
+        f'{config.fastadir}/{{sample}}.fasta'
     output:
-        f'{config.outdir}/virus_beds/{{virus}}.bed'
+        f'{config.outdir}/virus_beds/{{sample}}.bed'
     conda:
         'envs/asmac.yaml'
     shell:
