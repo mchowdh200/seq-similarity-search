@@ -4,7 +4,7 @@ from types import SimpleNamespace
 configfile: 'conf/seq-similarity-search.yaml'
 config = SimpleNamespace(**config)
 
-samples = [(lambda x: os.path.splitext(os.bath.basename(x))[0])(g)
+samples = [(lambda x: os.path.splitext(os.path.basename(x))[0])(g)
            for g in glob(config.fastadir)] 
 index = f'{config.outdir}/{config.index_name}'
 idmap = f'{index}.idmap.gz' # may not need at this time
