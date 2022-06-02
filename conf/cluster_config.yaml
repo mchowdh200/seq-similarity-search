@@ -10,7 +10,7 @@ __default__:
 
 CreateIndex:
   partition: long
-  time: 2880 # 48hr probably overkill (nope...)
+  time: 10080 # 1 week
   ntasks: 64
   mem: 256gb # probably overkill (nope...)
 
