@@ -14,7 +14,6 @@ idmap = f'{index}.idmap.gz' # may not need at this time
 # TODO add config for shift amount of windows
 # TODO add different format for iterator in AsMac for simple seq list
 
-
 rule All:
     input:
         expand(f'{config.outdir}/virus_beds/{{sample}}.bed', sample=samples)
@@ -37,7 +36,37 @@ rule MakeFastaWindows:
         f'{config.fastadir}/{{sample}}.fasta'
     output:
         f'{config.outdir}/virus_beds/{{sample}}.bed'
-    conda:
-        'envs/asmac.yaml'
     shell:
         'python scripts/make_fasta_windows.py --fasta {input} --window 150 --step 50 > {output}'
+
+rule QueryIndex:
+    """
+    Using windowed sequence (bed) query the index and
+    get the K-nearest neighbors.  For each window in
+    the bed, compute the average(TODO is this the best way?)
+    similarity of those nearest neighbors and add as column in output bed.
+
+    Output format: {bed region}\t{average score}
+    """
+    input:
+        index = index,
+        beds = expand(f'{config.outdir}/virus_beds/{{sample}}.bed',
+                      sample=samples)
+    output:
+        expand(f'{config.outdir}/bed_scores/{{sample}}.bed',
+               sample=samples)
+    conda:
+        'envs/asmac.yaml'
+    threads:
+        workflow.cores
+    shell:
+        # need to do some testing with k
+        f"""
+        python query_index.py \\
+        --index {{input.index}} \\
+        --beds {{input.beds}} \\
+        --num-processes {{threads}}
+        --k 10 \\
+        --outdir {config.outdir}/bed_scores
+        """
+        
