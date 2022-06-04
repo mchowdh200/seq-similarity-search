@@ -63,7 +63,7 @@ rule QueryIndex:
     shell:
         # need to do some testing with k
         f"""
-        python query_index.py \\
+        python scripts/query_index.py \\
         --model-weights data/final.pt \\
         --index {{input.index}} \\
         --batch-size 64 \\
