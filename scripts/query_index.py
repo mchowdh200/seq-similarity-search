@@ -1,5 +1,4 @@
-from os.path import basename, dirname, splitext
-import sys
+from os.path import basename, splitext
 import argparse
 from functools import partial
 from multiprocessing import Pool
@@ -20,6 +19,8 @@ parser.add_argument('--num-processes', type=int, default=64, dest='processes',
                     help='number of processes to use.')
 parser.add_argument('--beds', type=str, required=True, nargs='+', dest='beds',
                     help='list of bed files of windowed seqs.')
+parser.add_argument('--outdir', type=str, required=True, dest='outdir',
+                    help='output directory.')
 parser.add_argument('-k', type=int, required=True, dest='k',
                     help='bed file of windowed seqs.')
 args = parser.parse_args()
@@ -30,9 +31,8 @@ index: faiss.IndexFlatL2 = faiss.read_index(args.index)
 p = Pool(args.processes)
 
 for bed in args.beds:
-    dir = dirname(bed)
     sample = splitext(basename(bed))[0]
-    with open(f'{dir}/{sample}_scored.bed') as out:
+    with open(f'{args.outdir}/{sample}_scored.bed') as out:
         dataset = SeqIteratorDataset(paths=[bed], format='bed',
                                     gzipped=False, alphabet='ATCG')
         dataloader = makeDataLoader(dataset, batch_size=args.batch_size)
