@@ -5,8 +5,8 @@ __default__:
   nodes: 1
   ntasks: 4
   mem: 32gb
-  output: "log/{rule}-{wildcards.sample}-%j.out"
-  error: "log/{rule}-{wildcards.sample}-%j.err"
+  output: "log/{rule}-%j.out"
+  error: "log/{rule}-%j.err"
 
 CreateIndex:
   partition: long
