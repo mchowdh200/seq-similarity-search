@@ -32,7 +32,7 @@ p = Pool(args.processes)
 
 for bed in args.beds:
     sample = splitext(basename(bed))[0]
-    with open(f'{args.outdir}/{sample}_scored.bed') as out:
+    with open(f'{args.outdir}/{sample}_scored.bed', 'w') as out:
         dataset = SeqIteratorDataset(paths=[bed], format='bed',
                                     gzipped=False, alphabet='ATCG')
         dataloader = makeDataLoader(dataset, batch_size=args.batch_size)
