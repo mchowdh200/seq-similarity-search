@@ -2,14 +2,14 @@
 # Main snakemake job:
 # Submits snakemake jobs as individual slurm jobs
 # =============================================================================
-#SBATCH -p short
+#SBATCH -p long
 #SBATCH --job-name=query-seqs
 #SBATCH --mail-type=None # Mail events (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=much8161@colorado.edu
 #SBATCH --nodes=1
 #SBATCH --ntasks=4
 #SBATCH --mem=1gb
-#SBATCH --time=1:00:00 # Time limit hrs:min:sec
+#SBATCH --time=7:00:00 # Time limit hrs:min:sec
 #SBATCH --output=/Users/much8161/Repositories/seq-similarity-search/log/query-seqs.out
 #SBATCH --error=/Users/much8161/Repositories/seq-similarity-search/log/query-seqs.err
 # =============================================================================
