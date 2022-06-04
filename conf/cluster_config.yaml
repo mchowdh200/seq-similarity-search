@@ -21,7 +21,7 @@ Bwapairedsample:
   ntasks: 64
 
 QueryIndex:
-  job-name: "{rule}-{wildcards.sample}"
+  job-name: "{rule}"
   partition: long
   time: 10080
   ntasks: 64
