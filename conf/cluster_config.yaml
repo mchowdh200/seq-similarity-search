@@ -1,5 +1,5 @@
 __default__:
-  job-name: "{rule}-{wildcards.sample}"
+  job-name: "{rule}"
   partition: short
   time: 60 # minutes
   nodes: 1
@@ -21,6 +21,7 @@ Bwapairedsample:
   ntasks: 64
 
 QueryIndex:
+  job-name: "{rule}-{wildcards.sample}"
   partition: long
   time: 10080
   ntasks: 64

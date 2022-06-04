@@ -54,7 +54,7 @@ rule QueryIndex:
         beds = expand(f'{config.outdir}/virus_beds/{{sample}}.bed',
                       sample=samples)
     output:
-        expand(f'{config.outdir}/bed_scores/{{sample}}.bed',
+        expand(f'{config.outdir}/bed_scores/{{sample}}_scored.bed',
                sample=samples)
     conda:
         'envs/asmac.yaml'
