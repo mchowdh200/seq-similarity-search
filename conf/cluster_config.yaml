@@ -26,3 +26,27 @@ QueryIndex:
   time: 10080
   ntasks: 64
   mem: 512gb
+
+Fastq2Fasta:
+  job-name: "{rule}"
+  partition: short
+  time: 120
+  ntasks: 1
+
+BwaIndex:
+  job-name: "{wildcards.seq}-{rule}"
+  partition: short
+  time: 120 #minutes
+  mem: 16gb
+  ntasks: 1
+  output: "log/{rule}-{wildcards.seq}-%j.out"
+  error: "log/{rule}-{wildcards.seq}-%j.err"
+
+BwaMem:
+  job-name: "{wildcards.sample}-{wildcards.seq}-{rule}"
+  partition: short
+  time: 1439
+  ntasks: 64
+  mem: 64gb
+  output: "log/{rule}-{wildcards.sample}-{wildcards.seq}-%j.out"
+  error: "log/{rule}-{wildcards.sample}-{wildcards.seq}-%j.err"
