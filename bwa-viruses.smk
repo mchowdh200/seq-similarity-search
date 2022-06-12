@@ -25,7 +25,10 @@ def seqname(w):
 # =============================================================================
 rule All:
     input:
-        expand(rules.BwaMem.output, seq=config.seqs, sample=samples)
+        # expand(rules.BwaMem.output, seq=config.seqs, sample=samples)
+        expand(
+            (lambda w: f'{conf.outdir}/bwa_queries/{w.sample}-{seqname(w)}.bam')(wildcards),
+            seq=config.seqs, sample=samples)
         
 
 
