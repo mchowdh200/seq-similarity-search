@@ -25,7 +25,8 @@ def seqname(w):
 # =============================================================================
 rule All:
     input:
-        # TODO
+        expand(rules.BwaMem.output, seq=config.seqs, sample=samples)
+        
 
 
 rule MakeFastaWindows:
