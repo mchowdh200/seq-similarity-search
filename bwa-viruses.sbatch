@@ -14,7 +14,7 @@
 #SBATCH --error=/Users/much8161/Repositories/seq-similarity-search/log/bwa-snakemake.err
 # =============================================================================
 
-snakemake -s generate-index.smk \
+snakemake -s bwa-viruses.smk \
           --use-conda --conda-frontend mamba \
           --cluster-config conf/cluster_config.yaml \
           --latency-wait 5 \
