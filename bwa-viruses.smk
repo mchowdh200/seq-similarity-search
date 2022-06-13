@@ -24,7 +24,7 @@ seqs = [(lambda x: basename(x).split('.', 1)[0])(g)
 rule All:
     ## TODO
     input:
-        expand(f'{conf.outdir}/bwa_queries/{{sample}}-{{seq}}.bam',
+        expand(f'{config.outdir}/bwa_queries/{{sample}}-{{seq}}.bam',
                seq=config.seqs, sample=samples)
 
 rule MakeFastaWindows:
@@ -76,9 +76,9 @@ rule BwaMem:
     input:
         index = rules.BwaIndex.output, # not explicitly used, but needed
         ref = rules.Fastq2Fasta.output,
-        query = f'{conf.fastadir}/{{sample}}.fasta',
+        query = f'{config.fastadir}/{{sample}}.fasta',
     output:
-        f'{conf.outdir}/bwa_queries/{{sample}}-{{seq}}.bam'
+        f'{config.outdir}/bwa_queries/{{sample}}-{{seq}}.bam'
     threads:
         workflow.cores
     conda:
