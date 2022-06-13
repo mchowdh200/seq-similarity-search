@@ -13,7 +13,7 @@ samples = [(lambda x: splitext(basename(x))[0])(g)
            for g in glob(f'{config.fastadir}/*.fasta')] 
 
 # fastq sequences will be used as index for bwa (converted to fasta)
-seqs = [(lambda x: basename(x).split('.', 1)[0])(g)
+seqs = [basename(g).split('.', 1)[0]
         for g in glob(f'{config.fastqdir}/*.fq.gz')]
 
 ## Functions
@@ -25,7 +25,7 @@ rule All:
     ## TODO
     input:
         expand(f'{config.outdir}/bwa_queries/{{sample}}-{{seq}}.bam',
-               seq=config.seqs, sample=samples)
+               seq=seqs, sample=samples)
 
 rule MakeFastaWindows:
     """
