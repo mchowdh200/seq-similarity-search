@@ -37,7 +37,7 @@ BwaIndex:
   job-name: "{wildcards.seq}-{rule}"
   partition: short
   time: 120 #minutes
-  mem: 16gb
+  mem: 128gb
   ntasks: 1
   output: "log/{rule}-{wildcards.seq}-%j.out"
   error: "log/{rule}-{wildcards.seq}-%j.err"
