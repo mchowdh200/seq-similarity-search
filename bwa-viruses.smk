@@ -8,50 +8,50 @@ from types import SimpleNamespace
 configfile: 'conf/seq-similarity-search.yaml'
 config = SimpleNamespace(**config)
 
+# the virus strains (originally stored in fasta)
 samples = [(lambda x: splitext(basename(x))[0])(g)
            for g in glob(f'{config.fastadir}/*.fasta')] 
+
+# fastq sequences will be used as index for bwa (converted to fasta)
+seqs = [(lambda x: splitext(basename(x))[0])(g)
+        for g in glob(f'{config.fastqdir}/*.fq.gz')]
 
 ## Functions
 # =============================================================================
 
-def seqname(w):
-    """
-    get the name of the seq upto the first '.'
-    Keep the dirname so that the path will remain the same
-    """
-    return w.seq.split('.')[0]
-
 ## Rules
 # =============================================================================
 rule All:
+    ## TODO
     input:
-        # expand(rules.BwaMem.output, seq=config.seqs, sample=samples)
-        expand(
-            (lambda w: f'{conf.outdir}/bwa_queries/{w.sample}-{seqname(w)}.bam')(wildcards),
-            seq=config.seqs, sample=samples)
-        
-
+        expand(f'{conf.outdir}/bwa_queries/{{sample}}-{{seq}}.bam',
+               seq=config.seqs, sample=samples)
 
 rule MakeFastaWindows:
     """
-    Take a fasta, and create a tab sep file with format
-    start  end  sequence.
+    Take a fasta, and create a new fasta with reads separated into windows.
+    The read headers will contain the genomic positions
     """
     input:
         f'{config.fastadir}/{{sample}}.fasta'
     output:
-        f'{config.outdir}/virus_beds/{{sample}}.bed'
+        f'{config.outdir}/fasta_windows/{{sample}}-windowed.fasta'
     threads:
         1
     shell:
-        'python scripts/make_fasta_windows.py --fasta {input} --window 150 --step 50 > {output}'
+        """
+        python scripts/make_fasta_windows.py \\
+        --output-format fasta \\
+        --fasta {input} \\
+        --window 150 --step 50 > {output}
+        """
 
 
 rule Fastq2Fasta:
     input:
-        '{seq}' # full path to seq
+        f'{config.fastqdir}/{{seq}}.fq.gz'
     output:
-        lambda w: f'{seqname(w)}.fa.gz'
+        f'{config.outdir}/index_fasta/{{seq}}.fa.gz'
     threads:
         1
     shell:
@@ -60,11 +60,11 @@ rule Fastq2Fasta:
 rule BwaIndex:
     input: rules.Fastq2Fasta.output
     output:
-        lambda w: f'{seqname(w)}.fa.gz.amb',
-        lambda w: f'{seqname(w)}.fa.gz.ann',
-        lambda w: f'{seqname(w)}.fa.gz.bwt',
-        lambda w: f'{seqname(w)}.fa.gz.pac',
-        lambda w: f'{seqname(w)}.fa.gz.sa',
+        f'{config.outdir}/index_fasta/{{seq}}.fa.gz.amb',
+        f'{config.outdir}/index_fasta/{{seq}}.fa.gz.ann',
+        f'{config.outdir}/index_fasta/{{seq}}.fa.gz.bwt',
+        f'{config.outdir}/index_fasta/{{seq}}.fa.gz.pac',
+        f'{config.outdir}/index_fasta/{{seq}}.fa.gz.sa',
     threads:
         1
     conda:
@@ -78,7 +78,7 @@ rule BwaMem:
         ref = rules.Fastq2Fasta.output,
         query = f'{conf.fastadir}/{{sample}}.fasta',
     output:
-        lambda w: f'{conf.outdir}/bwa_queries/{w.sample}-{seqname(w)}.bam'
+        f'{conf.outdir}/bwa_queries/{{sample}}-{{seq}}.bam'
     threads:
         workflow.cores
     conda:
