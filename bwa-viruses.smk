@@ -76,7 +76,7 @@ rule BwaMem:
     input:
         index = rules.BwaIndex.output, # not explicitly used, but needed
         ref = rules.Fastq2Fasta.output,
-        query = f'{config.fastadir}/{{sample}}.fasta',
+        query = rules.MakeFastaWindows.output,
     output:
         f'{config.outdir}/bwa_queries/{{sample}}-{{seq}}.bam'
     threads:
