@@ -1,7 +1,7 @@
 #!/bin/env bash
 
 input=$1
-output=$input.fa.gz
+output=$2
 
 zcat $input |
     paste -d '\t' - - - - |
