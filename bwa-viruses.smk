@@ -84,6 +84,6 @@ rule BwaMem:
     conda:
         'envs/asmac.yaml'
     shell:
-        'bwa mem {input.ref} {input.query} -t {threads} | samtools view -b > {output}'
+        'bwa mem {input.ref} {input.query} -t {threads} | samtools view -bS - > {output}'
         
         
