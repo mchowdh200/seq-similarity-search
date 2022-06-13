@@ -13,7 +13,7 @@ samples = [(lambda x: splitext(basename(x))[0])(g)
            for g in glob(f'{config.fastadir}/*.fasta')] 
 
 # fastq sequences will be used as index for bwa (converted to fasta)
-seqs = [(lambda x: splitext(basename(x))[0])(g)
+seqs = [(lambda x: basename(x).split('.', 1)[0])(g)
         for g in glob(f'{config.fastqdir}/*.fq.gz')]
 
 ## Functions
