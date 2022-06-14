@@ -85,5 +85,21 @@ rule BwaMem:
         'envs/asmac.yaml'
     shell:
         'bwa mem {input.ref} {input.query} -t {threads} | samtools view -bS - > {output}'
+
+rule GetAlignmentScores:
+    input:
+        rules.BwaMem.output
+    output:
+        f'{config.outdir}/bwa_alignemnt_scores/{{sample}}-{{seq}}.bed'
+    threads:
+        1
+    conda:
+        'envs/asmac.yaml'
+    shell:
+        """
+        samtools view {input} |
+        python scripts/get_alignemnt_scores.py > {output}
+        """
+        
         
         
