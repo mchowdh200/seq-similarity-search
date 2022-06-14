@@ -1,9 +1,15 @@
 import sys
 
 for line in sys.stdin:
-    A = line.rstrip().split()
-    region = A[0].split(':') # contig:start-end
+    line = line.rstrip().split()
+    region = line[0].split(':') # contig:start-end
     contig = region[0]
     start, end = region[1].split('-')
-    score = A[13].split(':')[2] # AS:i:score
-    print('\t'.join([contig, start, end, score]))
+
+    # find the alignment score amongst the optional fields
+    for field in line[11:]:
+        field = field.split(':')
+        if field[0] == 'AS':
+            score = field[2]
+            print('\t'.join([contig, start, end, score]))
+            break
