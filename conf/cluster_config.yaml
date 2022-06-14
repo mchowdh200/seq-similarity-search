@@ -45,7 +45,7 @@ BwaIndex:
 BwaMem:
   job-name: "{wildcards.sample}-{wildcards.seq}-{rule}"
   partition: short
-  time: 1439
+  time: 120 #minutes
   ntasks: 64
   mem: 64gb
   output: "log/{rule}-{wildcards.sample}-{wildcards.seq}-%j.out"
