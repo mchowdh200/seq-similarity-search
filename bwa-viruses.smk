@@ -100,7 +100,7 @@ rule GetAlignmentScores:
     shell:
         """
         samtools view {input} |
-        python scripts/get_alignemnt_scores.py > {output}
+        python scripts/get_alignment_scores.py > {output}
         """
         
         
