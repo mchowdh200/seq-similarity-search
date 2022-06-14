@@ -24,8 +24,10 @@ seqs = [basename(g).split('.', 1)[0]
 rule All:
     ## TODO
     input:
-        expand(f'{config.outdir}/bwa_queries/{{sample}}-{{seq}}.bam',
+        expand(f'{config.outdir}/bwa_alignemnt_scores/{{sample}}-{{seq}}.bed',
                seq=seqs, sample=samples)
+        # expand(f'{config.outdir}/bwa_queries/{{sample}}-{{seq}}.bam',
+        #        seq=seqs, sample=samples)
 
 rule MakeFastaWindows:
     """
