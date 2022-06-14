@@ -13,9 +13,7 @@ class SeqRecord:
             return '\t'.join(
                 [self.contig, str(self.start), str(self.end), self.seq])
         if self.format == 'fasta':
-            return ('>' +
-                '\t'.join([self.contig, str(self.start), str(self.end)]) +
-                '\n' + self.seq)
+            return f'>{self.contig}:{self.start}-{self.end}\n{self.seq}'
 
 def sliding_window(contig: str, seq: str, window: int, step: int,
                    format: str='bed', ) -> Iterator[SeqRecord]:
