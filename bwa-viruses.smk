@@ -110,7 +110,7 @@ rule AverageScores:
     average scores across all seqs for a given sample
     """
     input:
-        expand(f'{config.outdir}/bwa_alignemnt_scores/{{{sample}}}-{{seq}}.bed',
+        expand(f'{config.outdir}/bwa_alignemnt_scores/{{{{sample}}}}-{{seq}}.bed',
                seq=seqs)
     output:
         f'{config.outdir}/bwa_averaged_scores/{{sample}}_scores.bed'
