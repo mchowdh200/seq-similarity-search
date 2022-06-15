@@ -9,6 +9,7 @@ dependencies:
   - faiss-cpu
   - cpuonly
   - numpy
+  - pandas
   - biopython
   - bwa
   - pip
