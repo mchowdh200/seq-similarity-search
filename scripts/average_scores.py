@@ -7,7 +7,6 @@ right = pd.read_csv(sys.argv[2], sep='\t', names=['contig', 'start', 'end', 'sco
 
 merged = pd.merge(on=['contig', 'start', 'end'],
                   left=left, right=right, how='outer')
-print(merged.head())
 
 merged['mean_score'] = merged.apply(
     lambda x: np.nanmean([x.score_x, x.score_y]), axis=1)
