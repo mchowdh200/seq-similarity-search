@@ -1,3 +1,4 @@
+import argparse
 import sys
 from os.path import basename, splitext
 from glob import glob
@@ -8,8 +9,16 @@ from scipy.signal import savgol_filter
 
 # TODO add "image" to the conda env
 
-scores_dir = sys.argv[1]
-beds = glob(f'{scores_dir}/*.bed')
+parser = argparse.ArgumentParser()
+parser.add_argument('--scores-dir', dest='scores_dir',
+                    type=str, required=True)
+parser.add_argument('--scores-type', dest='scores_type',
+                    type=str, default='similarity',
+                    help='similarity score | bwa score')
+args = parser.parse_args()
+
+# scores_dir = sys.argv[1]
+beds = glob(f'{args.scores_dir}/*.bed')
 
 for bed in beds:
 
@@ -34,9 +43,16 @@ for bed in beds:
                 for i in interval_bins if i.data],
                 key=lambda x: x[0])
 
-    plt.plot([x[0] for x in bins],
-             savgol_filter([1-np.sqrt(x[2])/2 for x in bins], 51, 3),
-             label=basename(bed).split('_')[0])
+    if args.scores_type == 'similarity':
+        plt.plot([x[0] for x in bins],
+                savgol_filter([1-np.sqrt(x[2])/2 for x in bins], 51, 3),
+                label=basename(bed).split('_')[0])
+    elif args.scores_type == 'bwa':
+        plt.plot([x[0] for x in bins],
+                 savgol_filter([x[2] for x in bins], 51, 3),
+                 label=basename(bed.split('_')[0]))
+    else:
+        raise ValueError('scores_type must be "similarity" or "bwa"')
 
 plt.legend()
 plt.show()

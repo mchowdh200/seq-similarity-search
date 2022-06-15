@@ -24,8 +24,10 @@ seqs = [basename(g).split('.', 1)[0]
 rule All:
     ## TODO
     input:
-        expand(f'{config.outdir}/bwa_alignemnt_scores/{{sample}}-{{seq}}.bed',
-               seq=seqs, sample=samples)
+        expand(f'{config.outdir}/bwa_averaged_scores/{{sample}}_scores.bed',
+               sample=samples)
+        # expand(f'{config.outdir}/bwa_alignemnt_scores/{{sample}}-{{seq}}.bed',
+        #        seq=seqs, sample=samples)
         # expand(f'{config.outdir}/bwa_queries/{{sample}}-{{seq}}.bam',
         #        seq=seqs, sample=samples)
 
@@ -101,6 +103,25 @@ rule GetAlignmentScores:
         """
         samtools view {input} |
         python scripts/get_alignment_scores.py > {output}
+        """
+
+rule AverageScores:
+    """
+    average scores across all seqs for a given sample
+    """
+    input:
+        expand(f'{config.outdir}/bwa_alignemnt_scores/{{sample}}-{{seq}}.bed',
+               seq=seqs)
+    output:
+        f'{config.outdir}/bwa_averaged_scores/{{sample}}_scores.bed'
+    threads:
+        1     
+    conda:
+        'envs/asmac.yaml'
+    shell:
+        # pandas do some sort of join
+        """
+        python scripts/average_scores.py {input} > {output}
         """
         
         
