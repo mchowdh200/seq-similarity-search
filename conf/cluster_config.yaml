@@ -25,7 +25,7 @@ QueryIndex:
   partition: long
   time: 10080
   ntasks: 64
-  mem: 512gb
+  mem: 256gb
 
 Fastq2Fasta:
   job-name: "{rule}"
