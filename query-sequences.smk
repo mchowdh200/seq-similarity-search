@@ -70,6 +70,6 @@ rule QueryIndex:
         --num-processes {{threads}} \\
         --beds {{input.beds}} \\
         --outdir {config.outdir}/bed_scores \\
-        -k 100 \\
+        -k 10 \\
         """
         
