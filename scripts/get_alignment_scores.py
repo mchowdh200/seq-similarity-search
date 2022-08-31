@@ -1,5 +1,8 @@
 import sys
 
+# TODO add param for choosing score type
+# either AS (alignment score) or ND (edit distance)
+# TODO normalize scores
 for line in sys.stdin:
     line = line.rstrip().split()
     region = line[0].split(':') # contig:start-end

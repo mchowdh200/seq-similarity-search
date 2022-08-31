@@ -90,6 +90,8 @@ rule BwaMem:
     shell:
         'bwa mem {input.ref} {input.query} -t {threads} | samtools view -bS - > {output}'
 
+# TODO get only aligned reads
+# TODO do another rule for looking at any unaligned reads
 rule GetAlignmentScores:
     input:
         rules.BwaMem.output
@@ -110,6 +112,7 @@ rule AverageScores:
     average scores across all seqs for a given sample
     """
     input:
+        # holy braces batman!
         expand(f'{config.outdir}/bwa_alignemnt_scores/{{{{sample}}}}-{{seq}}.bed',
                seq=seqs)
     output:

@@ -40,6 +40,25 @@ rule MakeFastaWindows:
     shell:
         'python scripts/make_fasta_windows.py --fasta {input} --window 150 --step 50 > {output}'
 
+# TODO
+# make rule to just compute the embedding vectors of the virus sequences
+# and store them in a bed file with region -> embedding vector
+# TODO
+# then redo the QueryIndex rule
+# TODO 
+# Also do a rule to compute true positives and false positives
+# * query the index with a virus sequence kmer (ie embedding)
+# * TP: query contains the BWA top hit
+#   NOTE: bwa only give top hit, so n-nearest neighbors will necessearily
+#         return results that are FP
+# * FP: given the above, we will define a FP as a query did not return the BWA top hit
+# * FN: with the above formulation, FP=FN
+# * we can sweep the value of n-nearest neighbors to get a ROC curve
+
+
+
+
+
 rule QueryIndex:
     """
     Using windowed sequence (bed) query the index and
