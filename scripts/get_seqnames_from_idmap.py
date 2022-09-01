@@ -13,7 +13,7 @@ def load_idmap(path: str) -> dict[str, tuple[str, str]]:
     """format of idmap: id\tfastq_path\tseqname.
     need to strip the directory and extension from the fastq_path
     """
-    with open(path, "r") as f:
+    with gzip.open(path, "rt") as f:
         idmap: dict[str, tuple[str, str]] = {}
         for line in f:
             id, fastq_path, seqname = line.rstrip().split("\t")
@@ -24,7 +24,7 @@ def load_idmap(path: str) -> dict[str, tuple[str, str]]:
 
 
 def get_seqnames(idmap: dict[str, tuple[str, str]], bed: str):
-    with gzip.open(bed, "rt") as f:
+    with open(bed, "r") as f:
         for line in f:
             # interval, D, I. Tab separated
             # D and I are comma separated.
