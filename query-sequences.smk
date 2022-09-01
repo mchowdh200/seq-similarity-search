@@ -7,7 +7,7 @@ config = SimpleNamespace(**config)
 samples = [(lambda x: os.path.splitext(os.path.basename(x))[0])(g)
            for g in glob(f'{config.fastadir}/*.fasta')] 
 index = f'{config.outdir}/{config.index_name}'
-idmap = f'{index}.idmap.gz' # may not need at this time
+idmap = f'{index}.id_map.gz' # may not need at this time
 
 ## TODO list
 # TODO add config for window size of queries
