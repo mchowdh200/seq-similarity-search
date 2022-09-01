@@ -15,6 +15,9 @@ idmap = f'{index}.idmap.gz' # may not need at this time
 
 rule All:
     input:
+
+        expand(f'{config.outdir}/query_result_seqnames/{{sample}}_seq.bed',
+               sample=samples),
         expand(f'{config.outdir}/query_result_id/{{sample}}_ids.bed', sample=samples),
 
         #expand(f'{config.outdir}/bed_scores/{{sample}}_scored.bed',
@@ -85,6 +88,50 @@ rule GetQueryResultID:
                 -k 10
         """
 
+# TODO make k an input parameter from the config
+rule GetSeqNames:
+    """
+    From the query result ID, get the sequence names using the ID map.
+    """
+    input:
+        query_results = rules.GetQueryResultID.output,
+        idmap = idmap
+    output:
+        f'{config.outdir}/query_result_seqnames/{{sample}}_seq.bed'
+    conda:
+        'envs/asmac.yaml'
+    shell:
+        """
+        python scripts/get_seqnames_from_idmap.py \\
+                --idmap {input.idmap} \\
+                --bed {input.query_results} \\
+                > {output}
+        """
+
+
+
+
+
+# rule CrossReferenceBWA:
+#     """
+#     Cross reference the query results with the BWA results.
+#     """
+#     input:
+#         f'{config.outdir}/query_result_id/{{sample}}_ids.bed',
+#         f'{config.outdir}/bwa_queries/{{sample}}-BetaCoV_bat_Yunnan_RmYN02_2019_1.bam',
+#         f'{config.outdir}/bwa_queries/{{sample}}-BetaCoV_bat_Yunnan_RmYN02_2019_2.bam',
+#     output:
+#         # TODO determine what the best output format is
+#         f'{config.outdir}/cross_ref_bwa/{{sample}}_scored.bed'
+#     conda:
+#         'envs/asmac.yaml'
+#     shell:
+#         """
+#         python scripts/cross_reference_bwa.py \\
+#                 --query-bed {input[0]} \\
+#                 --bwa-bed {input[1]} \\
+#                 --output-bed {output}
+#         """
 
 
 rule QueryIndex:
