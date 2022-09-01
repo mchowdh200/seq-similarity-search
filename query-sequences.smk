@@ -101,6 +101,7 @@ rule GetSeqNames:
     #     'envs/asmac.yaml'
     shell:
         """
+        mkdir -p {config.outdir}/query_result_seqnames
         python scripts/get_seqnames_from_idmap.py \\
                 --idmap {input.idmap} \\
                 --bed {input.query_results} \\
