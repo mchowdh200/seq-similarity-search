@@ -32,13 +32,8 @@ GetQueryResultID:
   partition: long
   time: 10080
   ntasks: 1
-  mem: 64gb
+  mem: 256gb
 
-GetQueryResultID:
-  job-name: "{rule}"
-  partition: short
-  time: 240 #4hrs
-  ntasks:
 
 Fastq2Fasta:
   job-name: "{rule}"
