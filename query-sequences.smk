@@ -82,7 +82,7 @@ rule GetQueryResultID:
                 --num-processes {{threads}}
                 --beds {{input.queries}} \\
                 --outdir {config.outdir}/query_result_id \\
-                -k 1
+                -k 10
         """
 
 
