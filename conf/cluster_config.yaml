@@ -29,7 +29,7 @@ QueryIndex:
 
 GetQueryResultID:
   job-name: "{rule}"
-  partition: long
+  partition: short
   time: 10080
   ntasks: 1
   mem: 256gb

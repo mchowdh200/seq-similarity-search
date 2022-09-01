@@ -25,4 +25,4 @@ snakemake -s query-sequences.smk \
                             --mem={cluster.mem} \\
                             --output {cluster.output} \\
                             --error {cluster.error}" \
-          --jobs 6 --cores 64
+          --jobs 4 --cores 64
