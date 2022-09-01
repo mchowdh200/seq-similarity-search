@@ -30,7 +30,7 @@ def get_seqnames(idmap: dict[str, tuple[str, str]], bed: str):
             # interval, D, I. Tab separated
             # D and I are comma separated.
             chr, start, end, _, ids = line.rstrip().split("\t")
-            ids = ids[0].split(",")
+            ids = ids.split(",")
             seqnames = [",".join(idmap[id]) for id in ids]
             print(chr, start, end, *seqnames, sep="\t")
 
