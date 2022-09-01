@@ -15,8 +15,8 @@ idmap = f'{index}.idmap.gz' # may not need at this time
 
 rule All:
     input:
-        expand(f'{config.outdir}/virus_beds/{{sample}}.bed',
-                sample=samples),
+        expand(f'{config.outdir}/query_result_id/{{sample}}_ids.bed', sample=samples),
+
         #expand(f'{config.outdir}/bed_scores/{{sample}}_scored.bed',
         #       sample=samples),
         expand(f'{config.outdir}/virus_beds/{{sample}}.bed', sample=samples)
