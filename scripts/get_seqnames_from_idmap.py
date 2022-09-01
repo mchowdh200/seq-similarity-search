@@ -17,7 +17,8 @@ def load_idmap(path: str) -> dict[str, tuple[str, str]]:
         idmap: dict[str, tuple[str, str]] = {}
         for line in f:
             id, fastq_path, seqname = line.rstrip().split("\t")
-            fastq_number = splitext(basename(fastq_path))[0].split("_")[-1]
+            # fastq_number = splitext(basename(fastq_path))[0].split("_")[-1]
+            fastq_number = basename(fastq_path).split('.')[0].split("_")[-1]
             # just keep the suffix of the fastq (1 or 2)
             idmap[id] = (fastq_number, seqname)
         return idmap
