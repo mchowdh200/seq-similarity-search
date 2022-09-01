@@ -92,4 +92,12 @@ if __name__ == "__main__":
         dest="k",
         help="Number of nearest neighbors to return",
     )
+    parser.add_argument(
+        "--outdir",
+        type=str,
+        required=True,
+        dest="outdir",
+        help="Output directory for query results",
+    )
     args = parser.parse_args()
+    query_index_knn(args)
