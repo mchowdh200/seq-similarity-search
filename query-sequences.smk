@@ -15,7 +15,6 @@ idmap = f'{index}.idmap.gz' # may not need at this time
 
 rule All:
     input:
-
         expand(f'{config.outdir}/query_result_seqnames/{{sample}}_seq.bed',
                sample=samples),
         expand(f'{config.outdir}/query_result_id/{{sample}}_ids.bed', sample=samples),
