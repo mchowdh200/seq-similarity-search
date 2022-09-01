@@ -79,7 +79,7 @@ rule GetQueryResultID:
                 --model-weights data/final.pt \\
                 --index {{input.index}} \\
                 --batch-size 64 \\
-                --num-processes {{threads}}
+                --num-processes {{threads}} \\
                 --beds {{input.queries}} \\
                 --outdir {config.outdir}/query_result_id \\
                 -k 10
