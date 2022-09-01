@@ -15,8 +15,10 @@ idmap = f'{index}.idmap.gz' # may not need at this time
 
 rule All:
     input:
-        expand(f'{config.outdir}/bed_scores/{{sample}}_scored.bed',
-               sample=samples),
+        expand(f'{config.outdir}/virus_beds/{{sample}}.bed',
+                sample=samples),
+        #expand(f'{config.outdir}/bed_scores/{{sample}}_scored.bed',
+        #       sample=samples),
         expand(f'{config.outdir}/virus_beds/{{sample}}.bed', sample=samples)
 
 
@@ -56,6 +58,32 @@ rule MakeFastaWindows:
 # * we can sweep the value of n-nearest neighbors to get a ROC curve
 
 
+rule GetQueryResultID:
+    """
+    Essentially the same as QueryIndex, but we only want the ID of the
+    nearest neighbors Written to a file.
+    """
+    input:
+        index = index, # vector knn index
+        queries = expand(f'{config.outdir}/virus_beds/{{sample}}.bed',
+                         sample=samples),
+    output:
+        f'{config.outdir}/query_result_id/{{sample}}_ids.bed'
+    conda:
+        'envs/asmac.yaml'
+    threads:
+        workflow.cores
+    shell:
+        f"""
+        python scripts/query_index_knn.py \\
+                --model-weights data/final.pt \\
+                --index {{input.index}} \\
+                --batch-size 64 \\
+                --num-processes {{threads}}
+                --beds {{input.queries}} \\
+                --outdir {config.outdir}/query_result_id \\
+                -k 1
+        """
 
 
 
