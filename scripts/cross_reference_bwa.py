@@ -17,7 +17,9 @@ def query_bam(bam: str, seqname: str) -> bool:
         if read.query_name == seqname and (not read.is_unmapped):
             return True
     return False
-def query_bam_from_seqs(seqs: list[str], bam1, bam2) -> bool:
+
+
+def query_bam_from_seqs(seqs: list[str], bam1: str, bam2: str) -> bool:
     """
     check if any seqnames in seqs is present in the bam file
     input: seqs is a list of comma delimited pairs "bam_number,seqname"
@@ -35,6 +37,7 @@ def query_bam_from_seqs(seqs: list[str], bam1, bam2) -> bool:
         if query_bam(bam, seqname):
             return True
     return False
+
 
 def cross_ref_bwa(args: argparse.Namespace):
     """

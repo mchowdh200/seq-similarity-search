@@ -15,6 +15,8 @@ idmap = f'{index}.id_map.gz' # may not need at this time
 
 rule All:
     input:
+        expand(f'{config.outdir}/cross_ref_bwa/{{sample}}_query_hits.bed',
+               sample=samples)
         expand(f'{config.outdir}/query_result_seqnames/{{sample}}_seq.bed',
                sample=samples),
         expand(f'{config.outdir}/query_result_id/{{sample}}_ids.bed', sample=samples),
@@ -109,29 +111,26 @@ rule GetSeqNames:
         """
 
 
-
-
-
-# rule CrossReferenceBWA:
-#     """
-#     Cross reference the query results with the BWA results.
-#     """
-#     input:
-#         f'{config.outdir}/query_result_id/{{sample}}_ids.bed',
-#         f'{config.outdir}/bwa_queries/{{sample}}-BetaCoV_bat_Yunnan_RmYN02_2019_1.bam',
-#         f'{config.outdir}/bwa_queries/{{sample}}-BetaCoV_bat_Yunnan_RmYN02_2019_2.bam',
-#     output:
-#         # TODO determine what the best output format is
-#         f'{config.outdir}/cross_ref_bwa/{{sample}}_scored.bed'
-#     conda:
-#         'envs/asmac.yaml'
-#     shell:
-#         """
-#         python scripts/cross_reference_bwa.py \\
-#                 --query-bed {input[0]} \\
-#                 --bwa-bed {input[1]} \\
-#                 --output-bed {output}
-#         """
+rule CrossReferenceBWA:
+    """
+    Cross reference the query results with the BWA results.
+    """
+    input:
+        query_results = rules.GetSeqNames.output,
+        bam1 = f'{config.outdir}/bwa_queries/{{sample}}-BetaCoV_bat_Yunnan_RmYN02_2019_1.bam',
+        bma2 = f'{config.outdir}/bwa_queries/{{sample}}-BetaCoV_bat_Yunnan_RmYN02_2019_2.bam',
+    output:
+        # TODO determine what the best output format is
+        f'{config.outdir}/cross_ref_bwa/{{sample}}_query_hits.bed'
+    conda:
+        'envs/asmac.yaml'
+    shell:
+        """
+        python scripts/cross_reference_bwa.py \\
+                --query-bed {input.query_results} \\
+                --bam1 {input.bam1} \\
+                --bam2 {input.bam1} > {output}
+        """
 
 
 rule QueryIndex:
