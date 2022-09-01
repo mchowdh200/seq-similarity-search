@@ -5,6 +5,7 @@ python scripts/get_seqnames_from_idmap.py \\
     > {output}
 """
 import argparse
+import gzip
 from os.path import basename, splitext
 
 
@@ -23,7 +24,7 @@ def load_idmap(path: str) -> dict[str, tuple[str, str]]:
 
 
 def get_seqnames(idmap: dict[str, tuple[str, str]], bed: str):
-    with open(bed, "r") as f:
+    with gzip.open(bed, "rt") as f:
         for line in f:
             # interval, D, I. Tab separated
             # D and I are comma separated.
