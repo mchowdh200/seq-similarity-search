@@ -97,8 +97,8 @@ rule GetSeqNames:
         idmap = idmap
     output:
         f'{config.outdir}/query_result_seqnames/{{sample}}_seq.bed'
-    conda:
-        'envs/asmac.yaml'
+    # conda:
+    #     'envs/asmac.yaml'
     shell:
         """
         python scripts/get_seqnames_from_idmap.py \\
