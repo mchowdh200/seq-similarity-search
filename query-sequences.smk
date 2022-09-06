@@ -16,10 +16,10 @@ idmap = f'{index}.id_map.gz' # may not need at this time
 rule All:
     input:
         expand(f'{config.outdir}/cross_ref_bwa/{{sample}}_query_hits.bed',
-               sample=samples)
+               sample=samples),
         expand(f'{config.outdir}/query_result_seqnames/{{sample}}_seq.bed',
                sample=samples),
-        expand(f'{config.outdir}/query_result_id/{{sample}}_ids.bed', sample=samples),
+        #expand(f'{config.outdir}/query_result_id/{{sample}}_ids.bed', sample=samples),
 
         #expand(f'{config.outdir}/bed_scores/{{sample}}_scored.bed',
         #       sample=samples),
