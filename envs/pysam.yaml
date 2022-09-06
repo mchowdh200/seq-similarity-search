@@ -1,0 +1,8 @@
+name: pysam
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - python=3.9
+  - numpy
+  - pysam=0.19.1
