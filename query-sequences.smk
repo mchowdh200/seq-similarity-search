@@ -123,7 +123,7 @@ rule CrossReferenceBWA:
         # TODO determine what the best output format is
         f'{config.outdir}/cross_ref_bwa/{{sample}}_query_hits.bed'
     conda:
-        'envs/asmac.yaml'
+        'envs/pysam.yaml'
     shell:
         """
         python scripts/cross_reference_bwa.py \\
